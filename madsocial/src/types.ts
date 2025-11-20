@@ -1,6 +1,7 @@
 export interface SocialEvent {
   id: string;
   title: string;
+  date: string; // YYYY-MM-DD format
   time: string;
   location: string;
   tags: string[];

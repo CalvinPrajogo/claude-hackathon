@@ -15,14 +15,16 @@ export const TodayPage: React.FC = () => {
     day: 'numeric',
     year: 'numeric',
   });
+  const todayDateString = today.toISOString().split('T')[0];
 
   const filteredEvents = mockEvents.filter((event) => {
+    const matchesDate = event.date === todayDateString;
     const matchesCategory =
       selectedCategory === 'All' ||
       event.category === selectedCategory.replace('/', '/') ||
       (selectedCategory === 'Bars/Clubs' && event.category === 'Bar/Club');
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesDate && matchesCategory && matchesSearch;
   });
 
   return (

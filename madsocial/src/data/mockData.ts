@@ -1,9 +1,18 @@
 import type { SocialEvent, Pregame, Friend } from '../types';
 
+// Helper to get date string in YYYY-MM-DD format
+const getDateString = (daysFromNow: number): string => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromNow);
+  return date.toISOString().split('T')[0];
+};
+
 export const mockEvents: SocialEvent[] = [
+  // Today's events
   {
     id: '1',
     title: 'Badgers vs Iowa — Camp Randall',
+    date: getDateString(0),
     time: '7:00 PM',
     location: 'Camp Randall Stadium',
     tags: ['Game', 'High Energy', 'Tailgate'],
@@ -15,6 +24,7 @@ export const mockEvents: SocialEvent[] = [
   {
     id: '2',
     title: 'State Street Bar Crawl',
+    date: getDateString(0),
     time: '9:00 PM',
     location: 'State Street',
     tags: ['Bar Crawl', 'Social', 'Dancing'],
@@ -26,6 +36,7 @@ export const mockEvents: SocialEvent[] = [
   {
     id: '3',
     title: 'Freakfest 2025',
+    date: getDateString(0),
     time: '8:00 PM',
     location: 'State Street',
     tags: ['Concert', 'Costume Party', 'Epic'],
@@ -37,6 +48,7 @@ export const mockEvents: SocialEvent[] = [
   {
     id: '4',
     title: 'Langdon House Party',
+    date: getDateString(0),
     time: '10:00 PM',
     location: '123 Langdon St',
     tags: ['House Party', 'DJ', 'Dancing'],
@@ -44,6 +56,174 @@ export const mockEvents: SocialEvent[] = [
     friendsGoing: 5,
     category: 'House Event',
     description: 'Huge house party with live DJ',
+  },
+
+  // Tomorrow's events
+  {
+    id: '5',
+    title: 'Karaoke Night at KK',
+    date: getDateString(1),
+    time: '8:00 PM',
+    location: 'Kollege Klub',
+    tags: ['Karaoke', 'Music', 'Fun'],
+    pregameCount: 2,
+    friendsGoing: 8,
+    category: 'Bar/Club',
+    description: 'Show off your singing skills!',
+  },
+  {
+    id: '6',
+    title: 'Study Break Paint & Sip',
+    date: getDateString(1),
+    time: '6:00 PM',
+    location: 'Memorial Union',
+    tags: ['Social', 'Creative', 'Chill'],
+    pregameCount: 1,
+    friendsGoing: 4,
+    category: 'Party',
+    description: 'Relax and paint with friends',
+  },
+
+  // Day 2 events
+  {
+    id: '7',
+    title: 'Badgers Hockey Night',
+    date: getDateString(2),
+    time: '7:30 PM',
+    location: 'Kohl Center',
+    tags: ['Hockey', 'Sports', 'Badgers'],
+    pregameCount: 4,
+    friendsGoing: 10,
+    category: 'Game',
+    description: 'Wisconsin vs Minnesota hockey rivalry',
+  },
+  {
+    id: '8',
+    title: 'Thursday Night Lights',
+    date: getDateString(2),
+    time: '9:00 PM',
+    location: 'Lucky\'s 1313',
+    tags: ['Dancing', 'Music', 'Drinks'],
+    pregameCount: 6,
+    friendsGoing: 15,
+    category: 'Bar/Club',
+    description: 'Thursday night party at Lucky\'s',
+  },
+
+  // Day 3 events
+  {
+    id: '9',
+    title: 'Friday Night DJ Set',
+    date: getDateString(3),
+    time: '10:00 PM',
+    location: 'Whiskey Jack\'s',
+    tags: ['EDM', 'Dancing', 'Party'],
+    pregameCount: 10,
+    friendsGoing: 20,
+    category: 'Concert',
+    description: 'Special guest DJ performing',
+  },
+  {
+    id: '10',
+    title: 'Mifflin Street Block Party',
+    date: getDateString(3),
+    time: '12:00 PM',
+    location: 'Mifflin Street',
+    tags: ['Day Party', 'Outdoor', 'Epic'],
+    pregameCount: 12,
+    friendsGoing: 30,
+    category: 'Party',
+    description: 'Legendary Mifflin street party',
+  },
+  {
+    id: '11',
+    title: 'Game Night at Union South',
+    date: getDateString(3),
+    time: '7:00 PM',
+    location: 'Union South',
+    tags: ['Games', 'Social', 'Chill'],
+    pregameCount: 2,
+    friendsGoing: 6,
+    category: 'House Event',
+    description: 'Board games and video games',
+  },
+
+  // Day 4 events
+  {
+    id: '12',
+    title: 'Badgers Basketball Game',
+    date: getDateString(4),
+    time: '6:00 PM',
+    location: 'Kohl Center',
+    tags: ['Basketball', 'Sports', 'Badgers'],
+    pregameCount: 7,
+    friendsGoing: 18,
+    category: 'Game',
+    description: 'Wisconsin vs Purdue basketball',
+  },
+  {
+    id: '13',
+    title: 'Saturday Night Live Music',
+    date: getDateString(4),
+    time: '9:00 PM',
+    location: 'High Noon Saloon',
+    tags: ['Live Music', 'Rock', 'Concert'],
+    pregameCount: 5,
+    friendsGoing: 12,
+    category: 'Concert',
+    description: 'Local bands performing',
+  },
+
+  // Day 5 events
+  {
+    id: '14',
+    title: 'Sunday Brunch & Mimosas',
+    date: getDateString(5),
+    time: '11:00 AM',
+    location: 'Lazy Jane\'s',
+    tags: ['Brunch', 'Chill', 'Social'],
+    pregameCount: 1,
+    friendsGoing: 5,
+    category: 'Party',
+    description: 'Bottomless mimosas and brunch',
+  },
+  {
+    id: '15',
+    title: 'Comedy Show at Memorial Union',
+    date: getDateString(5),
+    time: '8:00 PM',
+    location: 'Memorial Union',
+    tags: ['Comedy', 'Entertainment', 'Fun'],
+    pregameCount: 3,
+    friendsGoing: 8,
+    category: 'Concert',
+    description: 'Stand-up comedy night',
+  },
+
+  // Day 6 events
+  {
+    id: '16',
+    title: 'Monday Night Trivia',
+    date: getDateString(6),
+    time: '7:00 PM',
+    location: 'Camp Trippalindee',
+    tags: ['Trivia', 'Social', 'Games'],
+    pregameCount: 4,
+    friendsGoing: 9,
+    category: 'Bar/Club',
+    description: 'Test your knowledge, win prizes',
+  },
+  {
+    id: '17',
+    title: 'Open Mic Night',
+    date: getDateString(6),
+    time: '8:30 PM',
+    location: 'Mother Fool\'s Coffeehouse',
+    tags: ['Music', 'Poetry', 'Art'],
+    pregameCount: 1,
+    friendsGoing: 4,
+    category: 'Concert',
+    description: 'Share your talents or just watch',
   },
 ];
 
