@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String   // hashed password
+  year      String   // Freshman, Sophomore, Junior, Senior
+  major     String
+  dorm      String
+  bio       String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  hostedPregames Pregame[]      @relation("PregameHost")
+  joinedPregames Pregame[]      @relation("PregameAttendees")
+  joinRequests   JoinRequest[]
+
+  @@index([email])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  location    String
+  vibeTags    String[] // array of vibe tags
+  description String?
+  category    String   @default("Party") // Party, Bar/Club, Game, Concert, House Event
+  createdAt   DateTime @default(now())
+
+  // Relations
+  pregames Pregame[]
+
+  @@index([date])
+  @@index([category])
+}
+
+enum AccessType {
+  OPEN
+  REQUEST_ONLY
+}
+
+model Pregame {
+  id              String     @id @default(cuid())
+  title           String
+  description     String?
+  meetingTime     DateTime
+  meetingLocation String
+  accessType      AccessType @default(OPEN)
+  capacity        Int?       // optional capacity
+  phoneNumber     String?    // host phone number
+  requirements    String?    // requirements for request-only pregames
+  createdAt       DateTime   @default(now())
+
+  // Relations
+  hostId  String
+  host    User   @relation("PregameHost", fields: [hostId], references: [id], onDelete: Cascade)
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  attendees    User[]        @relation("PregameAttendees")
+  joinRequests JoinRequest[]
+
+  @@index([hostId])
+  @@index([eventId])
+  @@index([meetingTime])
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
+model JoinRequest {
+  id          String        @id @default(cuid())
+  status      RequestStatus @default(PENDING)
+  bringing    String[]      @default([]) // items user is bringing (beer, food, drinks, music, etc.)
+  groupSize   Int           @default(1) // number of people in user's group
+  message     String?       // message to host
+  phoneNumber String?       // user's phone number
+  createdAt   DateTime      @default(now())
+
+  // Relations
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pregameId String
+  pregame   Pregame @relation(fields: [pregameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pregameId]) // A user can only have one request per pregame
+  @@index([userId])
+  @@index([pregameId])
+  @@index([status])
+}

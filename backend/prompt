@@ -1,0 +1,281 @@
+You are designing the backend for **MadSocial**, a Madison-only social platform focused on:
+- Today's social events
+- Pregames inside each event
+- Users joining pregames or requesting to join
+- Host approval flows
+- Mutual friends / overlaps
+- Basic user identity (year, major, dorm)
+- Lightweight social graph behavior
+
+The backend must be clean, modular, scalable, and easy to ship as an MVP.
+
+=====================================================
+1. CORE ENTITIES (ABSOLUTELY REQUIRED)
+=====================================================
+
+You must build and support the following data models:
+
+1. User
+   - id
+   - name
+   - email
+   - hashed password
+   - year (Freshman/Sophomore/etc.)
+   - major
+   - dorm
+   - bio
+   - avatar URL
+   - createdAt
+
+2. Event
+   - id
+   - title
+   - date (datetime)
+   - location
+   - vibeTags (array)
+   - createdAt
+
+3. Pregame
+   - id
+   - title
+   - description
+   - meetingTime
+   - meetingLocation
+   - accessType (OPEN or REQUEST_ONLY)
+   - capacity (optional)
+   - hostId (User)
+   - eventId (Event)
+   - createdAt
+
+4. JoinRequest (for request-only pregames)
+   - id
+   - userId
+   - pregameId
+   - status (PENDING / APPROVED / DECLINED)
+   - createdAt
+
+RELATIONSHIPS:
+- A User can host multiple pregames.
+- A User can join multiple pregames.
+- An Event can have many pregames.
+- A Pregame belongs to a single Event.
+- A Pregame has many attendees (users).
+- A Pregame can have many join requests.
+
+=====================================================
+2. API ENDPOINT REQUIREMENTS
+=====================================================
+
+The backend must expose REST endpoints for:
+
+---------------------
+A) USER AUTH + PROFILE
+---------------------
+POST /api/users/signup  
+POST /api/users/login  
+GET  /api/users/:id  
+Use JWT.
+
+---------------------
+B) EVENTS
+---------------------
+GET /api/events/today  
+Returns today’s events + number of pregames + number of people going.
+
+GET /api/events/:eventId  
+Returns:
+- Event details
+- All pregames for that event
+- Attendees for each pregame
+- Join request info if the user is the host
+
+POST /api/events  
+(For admins / internal use to seed events)
+
+---------------------
+C) PREGAMES
+---------------------
+POST /api/pregames  
+Create a pregame for an event:
+- Title  
+- Meeting time  
+- Location  
+- Access type (OPEN / REQUEST_ONLY)  
+- HostId  
+- EventId  
+
+GET /api/pregames/event/:eventId  
+Returns all pregames for that event.
+
+---------------------
+D) JOINING PREGAMES
+---------------------
+POST /api/pregames/:id/join  
+If OPEN: add user to attendees.
+
+POST /api/pregames/:id/request  
+If REQUEST_ONLY: create a join request (PENDING).
+
+---------------------
+E) HOST MANAGEMENT
+---------------------
+GET /api/pregames/:id/host  
+Only shows host tools:
+- attendee list
+- join request list (with user details)
+
+POST /api/pregames/:id/approve  
+POST /api/pregames/:id/decline  
+
+Host can approve/decline join requests.
+
+=====================================================
+3. MUTUAL FRIENDS/MUTUAL OVERLAPS
+=====================================================
+
+Mutuals must be resolved in **one of two ways** (backend chooses best approach):
+
+Option A (Simple MVP):
+- Mutuals = same dorm OR same major OR same year.
+- Provide API endpoint to fetch overlaps.
+
+Option B (Extended):
+- Mutual friends system (friendships table).
+- Optional, but structure should allow adding this later.
+
+For MVP, implement **Option A** (mutual overlaps by properties).
+
+=====================================================
+4. BACKEND RULES (VERY IMPORTANT)
+=====================================================
+
+1. A user only sees **mutuals inside an event** after clicking that event.
+2. A user only sees pregame attendees after opening a specific pregame.
+3. A user only sees join requests if they are the host.
+4. Pregame access types matter:
+   - OPEN: user joins instantly.
+   - REQUEST_ONLY: user must ask → host must approve.
+5. Every pregame always belongs to exactly ONE event.
+6. Every user can host multiple pregames, but only one per event (recommended constraint).
+7. Pregame capacity is optional — ignore unless added by UI.
+
+=====================================================
+5. BACKEND STRUCTURE & ARCHITECTURE (RECOMMENDED)
+=====================================================
+
+Use Node.js, Express, TypeScript, and Prisma OR NestJS with Prisma.
+
+Folder structure should look like:
+
+src/
+- routes/
+- controllers/
+- services/
+- middleware/
+- validators/
+- prisma/
+- utils/
+
+Key rules:
+- Keep controllers thin.
+- Move logic to services.
+- Validate all input with Zod or Yup.
+- Use PostgreSQL.
+- JWT auth with protected routes.
+
+=====================================================
+6. RESPONSE SHAPES (VERY IMPORTANT)
+=====================================================
+
+Keep responses clean and lightweight:
+
+Event response:
+{
+  id,
+  title,
+  date,
+  location,
+  vibeTags,
+  pregames: [
+    {
+      id,
+      title,
+      host: { id, name, major, dorm },
+      attendeeCount,
+      accessType,
+      capacity,
+      requestsPending (if host)
+    }
+  ]
+}
+
+Pregame response:
+{
+  id,
+  title,
+  meetingTime,
+  location,
+  accessType,
+  host,
+  attendees: [ ... ],
+  requests (host only)
+}
+
+Join Request response:
+{
+  id,
+  user: { id, name, major, dorm, avatar },
+  status
+}
+
+=====================================================
+7. PERFORMANCE & SECURITY BASICS
+=====================================================
+
+- Use indexes on: userId, hostId, eventId, date.
+- Never return password hashes.
+- Protect host-only endpoints using auth middleware.
+- Validate all user-provided data.
+- Enable CORS for frontend.
+- Use transactions for host approvals.
+
+=====================================================
+8. HIGH-LEVEL DATA FLOW
+=====================================================
+
+User opens Today page → backend returns:
+- Today’s events
+- # of pregames per event
+- # of total attendees per event
+
+User clicks an event → backend returns:
+- All pregames
+- Overlaps/mutuals
+- Pregame host info
+- Attendee previews
+
+User clicks a pregame → backend returns:
+- Full detail
+- Attendees
+- Overlaps
+- If host → join requests
+
+User clicks Join / Request → backend updates:
+- Instant join or pending request
+
+Host approves/declines → backend updates instantly.
+
+=====================================================
+9. WHAT TO OUTPUT
+=====================================================
+
+OUTPUT must include:
+1. Full backend architecture plan  
+2. Data models  
+3. API endpoints  
+4. Request/response shapes  
+5. Auth design  
+6. Business rules enforced  
+7. Best practices  
+
+Make this structured, clean, and production-ready.
