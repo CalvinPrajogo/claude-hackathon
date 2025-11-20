@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWk2czNkbWEwMDAwYzE4MDY2N3BzaG1tIiwiZW1haWwiOiJ0ZXN0QHdpc2MuZWR1IiwiaWF0IjoxNzYzNjAzNjk1LCJleHAiOjE3NjQyMDg0OTV9.Ln3Y1O2OURHZX-OKi5-PxYMFC2GV3G5x-pTTuj3h3vY\")",
+      "Bash(__NEW_LINE__ curl -X GET http://localhost:3000/api/events/cmi6s42js0001c1803i6w9rrx )"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
