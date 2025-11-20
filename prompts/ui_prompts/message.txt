@@ -1,0 +1,154 @@
+You are an expert product designer and UI/UX architect.
+
+Design the full web UI for a product called **MadSocial** — a Madison-only social platform focused on:
+- Today’s **social events**
+- **Pregames** (small meetups / groups going to an event)
+- **Hosts** managing pregame join requests
+- **Mutual friends** and social discovery inside each event
+
+This is a **web app** first, but should be visually easy to adapt to mobile later. The goal is to produce a cohesive, production-ready UI concept, not just vague ideas.
+
+====================================================
+1. BRANDING & VISUAL LANGUAGE
+====================================================
+
+Overall vibe:
+- Clean, modern, social, energetic.
+- Feels like a UW–Madison campus app (but not tacky).
+- Focused on **people and events**, not corporate.
+
+Color palette (use these explicitly):
+- **Badger Red** as the primary accent.
+  - Example: hex approx `#C5050C` (you can tweak slightly but keep it “Badger red”).
+- **Badger White** as the primary background for content cards and main areas.
+- Neutrals:
+  - Light grey backgrounds and dividers (e.g. `#F5F5F5`, `#E5E5E5`).
+  - Dark grey / near-black text (e.g. `#111111` / `#222222`).
+- Use Badger Red for:
+  - Primary buttons (e.g. “Join Pregame”, “Host a Pregame”)
+  - Highlights (selected state, active tab, key counters)
+- Use subtle shadows and rounded corners on cards:
+  - Border radius: 10–16px on cards and buttons.
+  - Elevation: soft shadow, no heavy skeuomorphism.
+
+Typography:
+- A clean, modern sans serif, e.g. Inter / SF Pro / Roboto style.
+- Hierarchy:
+  - H1: Date + Page title (e.g. “Wednesday, November 19, 2025”) — bold, 24–32px.
+  - H2: Section titles like “Today’s Events”, “Pregames for This Event” — 18–22px, semi-bold.
+  - Event titles: 18–20px, semi-bold.
+  - Body text: 14–16px, regular.
+  - Caption/small labels: 12–13px.
+
+Icon style:
+- Simple line icons with minimal fills.
+- Rounded edges, consistent stroke weight.
+- Icons for calendar, clock, map pin, people, host, requests, etc.
+
+====================================================
+2. GLOBAL LAYOUT & NAVIGATION
+====================================================
+
+Design this as a **desktop web layout** with a clear structure:
+
+- **Top Nav Bar** (persistent across pages):
+  - Left: MadSocial logo/wordmark (Badger Red accent).
+  - Center or left: Main navigation items:
+    - “Today”
+    - “Upcoming” (for future extension; keep subtle)
+    - “My Pregames”
+    - “Profile”
+  - Right:
+    - User avatar with dropdown (name, settings, logout).
+  - Background: White, subtle bottom shadow.
+
+- **Main Layout Pattern:**
+  - Content max width: ~1200–1280px, centered.
+  - Use a **two-column layout** where sensible:
+    - Left: Main content (events, pregames).
+    - Right: Contextual sidebar (mutuals, host tools, selected pregame info).
+  - Add consistent padding around content (24–32px).
+
+- **Responsive behavior (high level):**
+  - On smaller widths, stack columns (main content first, sidebar beneath).
+  - Navigation collapses into a top bar + hamburger menu.
+
+====================================================
+3. SCREEN 1 – “TODAY” (FIRST PAGE USERS SEE)
+====================================================
+
+Goal: When a user lands, they immediately see **today’s date** and a list of **today’s social events**.
+
+Layout:
+
+- Top of page (under nav bar):
+  - H1 row: “Today” and the full date.
+    - Example: “Today — Wednesday, November 19, 2025”
+    - Date could be accompanied by a small calendar icon.
+  - Optional right side: a small dropdown to change date (for future), but default is today.
+
+- Below the title:
+  - Section title: “Today’s Events”
+  - Add a simple filter bar:
+    - Filter chips: [All] [Parties] [Bars/Clubs] [Games] [Concerts] [House Events]
+    - Sort dropdown: “Sort by Time / Popularity”
+    - A small search input: “Search events…”
+
+Event list:
+
+- Represent each event as a **card** in a single-column feed or a 2-column grid.
+  Each event card includes:
+  - Event title (e.g. “Badgers vs Iowa — Camp Randall”).
+  - Time: Start time (e.g. “7:00 PM”).
+  - Location: Simple text, e.g. “Camp Randall Stadium”.
+  - Vibe tag chips: “Game”, “High Energy”, “Tailgate”.
+  - Small pill showing the number of pregames already created:
+    - e.g. “5 Pregames”
+  - Small pill showing “Friends Going” if applicable:
+    - e.g. “3 friends going” (but **do not show who** yet, only count).
+  - Primary action button: “View Event”.
+    - This should be Badger Red, right-aligned bottom of card.
+  - Secondary actions (text links or dropdown):
+    - “Save for later” (optional).
+
+Empty states:
+- If no events today, show a friendly empty state illustration/text:
+  - “No social events listed for today yet. Check back later or explore upcoming days.”
+
+Interactions:
+- Clicking anywhere on the event card or the “View Event” button navigates to the **Event Detail Page** for that event.
+
+====================================================
+4. SCREEN 2 – EVENT DETAIL PAGE (EVENT 1)
+====================================================
+
+When a user clicks an event (Event 1), they go to the **Event Detail Page**.
+
+Overall layout:
+- Top section: event summary.
+- Left column: list of pregames for this event.
+- Right column: mutual friends & maybe event info recap.
+- A prominent button to **Host Your Own Pregame**.
+
+Top event header (full width):
+- Event title (H1 style).
+- Secondary row with:
+  - Date + Time.
+  - Location (with map pin icon).
+  - Vibe tags.
+- A subtle background band or card to make the header feel special.
+
+Section: Pregames List
+
+- On the left column, below the header:
+  - Header row:
+    - Title: “Pregames for This Event”
+    - Right side: a primary button “Host a Pregame” in Badger Red.
+  - Under this, a list of pregames (cards) associated with this event.
+
+Design each pregame card with:
+- Pregame title:
+  - e.g. “Lakeshore Tailgate — Dejope 6:30PM”
+- Host info:
+  - Host name (small avatar + name).
+  - Year & major under the name in smaller text.

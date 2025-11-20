@@ -16,7 +16,8 @@ export const Navbar: React.FC = () => {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/bucky-logo.png" alt="Bucky Badger" className="w-10 h-10" />
             <h1 className="text-2xl font-bold text-badger-red">MadSocial</h1>
           </Link>
 

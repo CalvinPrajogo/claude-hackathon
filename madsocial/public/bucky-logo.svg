@@ -1,0 +1,58 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#F5F1E8"/>
+  <g transform="translate(80, 40)">
+    <!-- Party Hat -->
+    <path d="M180 60 L240 20 L220 100 Z" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M185 70 L195 70 L190 90 Z M200 65 L210 65 L205 85 Z M215 60 L225 60 L220 80 Z" fill="#fff"/>
+    <circle cx="255" cy="25" r="6" fill="#000"/>
+    <circle cx="270" cy="35" r="6" fill="#000"/>
+    <circle cx="280" cy="55" r="6" fill="#000"/>
+    
+    <!-- Head -->
+    <ellipse cx="200" cy="150" rx="80" ry="75" fill="#fff" stroke="#000" stroke-width="8"/>
+    
+    <!-- Sunglasses -->
+    <rect x="145" y="130" width="45" height="25" rx="5" fill="#000"/>
+    <rect x="210" y="130" width="45" height="25" rx="5" fill="#000"/>
+    <line x1="190" y1="142" x2="210" y2="142" stroke="#000" stroke-width="8"/>
+    
+    <!-- Nose -->
+    <path d="M200 160 Q210 165 205 175 Q200 170 195 175 Q190 165 200 160" fill="#000"/>
+    
+    <!-- Smile -->
+    <path d="M180 190 Q200 205 220 190" stroke="#C5050C" stroke-width="8" fill="none" stroke-linecap="round"/>
+    
+    <!-- Body -->
+    <path d="M150 220 L150 360 Q150 380 170 390 L230 390 Q250 380 250 360 L250 220 Q250 200 200 200 Q150 200 150 220" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    
+    <!-- Left arm raised with drink -->
+    <path d="M150 240 Q130 230 110 250 L105 290 Q110 300 125 295 L145 270" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    
+    <!-- Cup in left hand -->
+    <rect x="95" y="250" width="25" height="35" rx="3" fill="#C5050C" stroke="#000" stroke-width="6"/>
+    <ellipse cx="107.5" cy="252" rx="12" ry="6" fill="#fff"/>
+    <circle cx="107" cy="263" r="4" fill="#fff"/>
+    <circle cx="107" cy="275" r="3" fill="#fff"/>
+    
+    <!-- Right arm -->
+    <path d="M250 260 Q270 250 290 270 L295 310 Q290 320 275 315 L255 290" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    
+    <!-- Left leg -->
+    <path d="M165 390 L155 440 Q150 460 170 465 L180 465 Q190 460 185 445 L175 400" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    
+    <!-- Right leg -->
+    <path d="M235 390 L245 440 Q250 460 230 465 L220 465 Q210 460 215 445 L225 400" fill="#C5050C" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    
+    <!-- Sparkles -->
+    <g transform="translate(50, 180)">
+      <path d="M0 -15 L2 -2 L15 0 L2 2 L0 15 L-2 2 L-15 0 L-2 -2 Z" fill="#000"/>
+    </g>
+    <g transform="translate(330, 280)">
+      <path d="M0 -15 L2 -2 L15 0 L2 2 L0 15 L-2 2 L-15 0 L-2 -2 Z" fill="#000"/>
+    </g>
+    
+    <!-- Motion lines -->
+    <path d="M310 320 Q320 315 330 320" stroke="#000" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M315 335 Q325 330 335 335" stroke="#000" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
