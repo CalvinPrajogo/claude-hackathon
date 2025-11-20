@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, MapPin, Users } from 'lucide-react';
 import type { Pregame } from '../types';
 import { Button } from './Button';
+import { Modal } from './Modal';
+import { JoinPregameForm, type JoinRequestData } from './JoinPregameForm';
 
 interface PregameCardProps {
   pregame: Pregame;
 }
 
 export const PregameCard: React.FC<PregameCardProps> = ({ pregame }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [requestSubmitted, setRequestSubmitted] = useState(false);
+
   const getStatusBadge = () => {
     if (pregame.status === 'full') {
       return <span className="px-3 py-1 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">Full</span>;
@@ -18,14 +23,28 @@ export const PregameCard: React.FC<PregameCardProps> = ({ pregame }) => {
     return <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Open</span>;
   };
 
+  const handleJoinClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleFormSubmit = (data: JoinRequestData) => {
+    console.log('Join request submitted:', data);
+    // Here you would typically send this to your backend
+    setRequestSubmitted(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setRequestSubmitted(false);
+    }, 2000);
+  };
+
   const getActionButton = () => {
     if (pregame.status === 'full') {
       return <Button variant="secondary" disabled>Full</Button>;
     }
     if (pregame.status === 'request-only') {
-      return <Button variant="outline">Request to Join</Button>;
+      return <Button variant="outline" onClick={handleJoinClick}>Request to Join</Button>;
     }
-    return <Button>Join Pregame</Button>;
+    return <Button onClick={handleJoinClick}>Join Pregame</Button>;
   };
 
   return (
@@ -87,6 +106,35 @@ export const PregameCard: React.FC<PregameCardProps> = ({ pregame }) => {
       <div className="flex justify-end">
         {getActionButton()}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={pregame.status === 'request-only' ? 'Request to Join Pregame' : 'Join Pregame'}
+      >
+        {requestSubmitted ? (
+          <div className="text-center py-8">
+            <div className="text-6xl mb-4">✅</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {pregame.status === 'request-only' ? 'Request Sent!' : 'You\'re In!'}
+            </h3>
+            <p className="text-gray-600">
+              {pregame.status === 'request-only'
+                ? `${pregame.host.name} will review your request and get back to you.`
+                : `See you at ${pregame.time}! Check your phone for details.`}
+            </p>
+          </div>
+        ) : (
+          <JoinPregameForm
+            pregameTitle={pregame.title}
+            pregameTime={pregame.time}
+            hostName={pregame.host.name}
+            isRequestOnly={pregame.status === 'request-only'}
+            onSubmit={handleFormSubmit}
+            onCancel={() => setIsModalOpen(false)}
+          />
+        )}
+      </Modal>
     </div>
   );
 };

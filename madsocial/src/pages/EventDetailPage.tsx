@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Clock, MapPin, ArrowLeft } from 'lucide-react';
 import { PregameCard } from '../components/PregameCard';
 import { Button } from '../components/Button';
+import { Modal } from '../components/Modal';
+import { HostPregameForm, type HostPregameData } from '../components/HostPregameForm';
 import { mockEvents, mockPregames, mockMutualFriends } from '../data/mockData';
 
 export const EventDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isHostModalOpen, setIsHostModalOpen] = useState(false);
+  const [pregameCreated, setPregameCreated] = useState(false);
 
   const event = mockEvents.find((e) => e.id === id);
   const pregames = mockPregames[id || ''] || [];
+
+  const handleHostPregame = () => {
+    setIsHostModalOpen(true);
+  };
+
+  const handleHostFormSubmit = (data: HostPregameData) => {
+    console.log('Pregame created:', data);
+    // Here you would typically send this to your backend
+    setPregameCreated(true);
+    setTimeout(() => {
+      setIsHostModalOpen(false);
+      setPregameCreated(false);
+    }, 2500);
+  };
 
   if (!event) {
     return (
@@ -59,7 +77,7 @@ export const EventDetailPage: React.FC = () => {
         <div className="lg:col-span-2">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-900">Pregames for This Event</h2>
-            <Button>Host a Pregame</Button>
+            <Button onClick={handleHostPregame}>Host a Pregame</Button>
           </div>
 
           {pregames.length > 0 ? (
@@ -77,7 +95,7 @@ export const EventDetailPage: React.FC = () => {
               <p className="text-gray-600 mb-4">
                 Be the first to host a pregame for this event!
               </p>
-              <Button>Host a Pregame</Button>
+              <Button onClick={handleHostPregame}>Host a Pregame</Button>
             </div>
           )}
         </div>
@@ -116,6 +134,39 @@ export const EventDetailPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isHostModalOpen}
+        onClose={() => setIsHostModalOpen(false)}
+        title="Host a Pregame"
+      >
+        {pregameCreated ? (
+          <div className="text-center py-8">
+            <div className="text-6xl mb-4">🎉</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Pregame Created!
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Your pregame has been created. People can now see it and request to join!
+            </p>
+            <div className="bg-badger-red/10 rounded-lg p-4 text-sm text-gray-700">
+              <p className="font-medium mb-1">Next steps:</p>
+              <ul className="text-left space-y-1">
+                <li>• Check "My Pregames" to manage join requests</li>
+                <li>• You'll receive notifications when people join</li>
+                <li>• Have a great time! 🎊</li>
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <HostPregameForm
+            eventTitle={event.title}
+            eventTime={event.time}
+            onSubmit={handleHostFormSubmit}
+            onCancel={() => setIsHostModalOpen(false)}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
